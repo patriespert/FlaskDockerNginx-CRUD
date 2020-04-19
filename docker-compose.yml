@@ -1,54 +1,45 @@
-# Author: Mazhar Ahmed, CTO, Oceanize Inc
-# All rights reserved. Copyright (c) Oceanize Inc
-version: '3'
+version: '2.1'
+
 services:
-  app:
-    container_name: flask_app
-    build: ./flask #taking the Dockerfile allocated in flask directory
-    restart: always
+  web:
+    build: ./flask
+    container_name: flask_web
+    command: python run.py run -h 0.0.0.0
     volumes:
-      - ./app:/app
-    links:
-      # network connection with these services
-      - mysql
-    depends_on:
-      # build those images first
-      - mysql
+      - ./services/web/:/usr/src/app/
     ports:
-      # bind on our 5000 port because most people have 80, 8080 already bound
-      - "5000:5000"
+      - 5000:5000
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - mariadb
+    expose:
+      - 8080
 
-  mysql:
-    container_name: flask_database
-    # let's grab from mysql 5.7 image
-    image: mysql:5.7
+  mariadb:
+    image: linuxserver/mariadb
+    container_name: mariadb
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MYSQL_ROOT_PASSWORD=password
+      - TZ=Europe/Madrid
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=password
     volumes:
-        # pass volume named mysql-data to mysql container
-      - mysql-data:/var/lib/mysql
-    restart: always
-    environment:
-      # credentials
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: mydb
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: password
+      - mariadb_data:/config
+    ports:
+          - 3306:3306
+    restart: unless-stopped
 
-  phpmyadmin:
-    depends_on:
-      - mysql
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: flask_phpmyadmin
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
     restart: always
     ports:
-      - "5010:80"
-    environment:
-      PMA_HOST: mysql
-      PMA_USER: flask
-      PMA_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: password
+      - "80:80"
 
-# volumes definition here
 volumes:
-  # just a persistance data
-  mysql-data:
-    driver: local
+    mariadb_data:

@@ -9,7 +9,7 @@ db = SQLAlchemy()
 def create_app(config_obj=None):
 
     app = Flask(__name__, instance_relative_config=False)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@localhost:3306/mydb'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:password@mariadb:3306/mydb'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.secret_key = "12345"
     db.init_app(app)
