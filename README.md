@@ -33,6 +33,6 @@
 <li>localhost:5000/</li>
 <li>localhost:5000/signup  para registrarnos y que nos aparezca info en la base de datos</li>
 <li>localhost:5000/login  accedemos con nuestro usuario y contraseña (<b>Nos tenemos que haber registrado previamente</b>) </li>
-<li>localhost:5000/home nos devolverá la cadena  'You are <nombre de usuario>'</li>
+<li>localhost:5000/home nos devolverá la cadena  'You are nombre-de-usuario'</li>
  <li>localhost:5000/logout cerramos la sesion</li>
 </ul>
