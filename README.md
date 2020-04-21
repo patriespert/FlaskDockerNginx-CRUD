@@ -16,7 +16,7 @@
     <li> Ahora en el navegador escribimos localhost:5000 et voilá ya estamos en la aplicación! </li>
     <hr/>
     <li>Con todo esto seguimos en el mismo directorio (Desktop/nombre-carpeta) y escribimos  <b>docker exec -it <id del contenedor de mysql> bash </b> </li>
-    <li> Se nos abrirá un prompt de mysql y  <b> escribimos mysql -u admin -p mydb </b> </li>
+    <li> Se nos abrirá un prompt de mysql y  <b> escribimos mysql -u admin -P mydb </b> </li>
     <li> Enter password: password (siendo password la contraseña)</li>
     <li>Escribimos <b> select * from users; y se nos devolverá empty set 0.0 </b> </li>   
     <hr/>
